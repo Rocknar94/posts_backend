@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 .db/
+.test_db/
 logs/
 build/
 !gradle/wrapper/gradle-wrapper.jar
