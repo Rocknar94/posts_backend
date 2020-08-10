@@ -4,6 +4,7 @@ package com.matthieu.posts_backend.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.retry.annotation.EnableRetry;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -11,6 +12,7 @@ import java.net.http.HttpRequest;
 
 
 @Configuration
+@EnableRetry
 public class HttpClientConfig {
 
     @Bean
