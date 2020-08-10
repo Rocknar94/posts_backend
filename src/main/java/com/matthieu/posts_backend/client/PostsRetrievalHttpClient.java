@@ -1,5 +1,6 @@
 package com.matthieu.posts_backend.client;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+
 
 /**
  * Implementation of PostsRetrievalClient using Java8 HttpClient
