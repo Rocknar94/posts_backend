@@ -1,5 +1,7 @@
 # POSTS PROJECTS
 
+The compiled projects can be found in the ``build`` directory. To run them open a terminal in the directory, and use the command ``java -jar posts_backend.jar & serve -p 8080 -s frontend`` or the script ``start.sh`` provided.
+
 #### BACKEND
 
 ###### How to run
@@ -49,6 +51,14 @@ desired properties as parameters in the launching command.
   # Delay between two retries in ms
   posts.retrieval.backoff-delay=500 
 ````
+
+###### Run the tests
+To run all the unit tests, use the gradle task ``unitTest`` :  
+``./gradlew clean unitTest``.
+
+To run the integration tests, use the gradle task ``integrationTest`` :  
+``./gradlew clean integrationTest``.
+
 ---
 #### Front-end
 ###### How to run
@@ -62,5 +72,5 @@ to retrieve the posts and display them.
 
 #### Source code
 
-Backend project :  
-Frontend project :  
+Backend project : https://github.com/Rocknar94/posts_backend.git
+Frontend project :  https://github.com/Rocknar94/frontend.git
