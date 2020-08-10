@@ -5,6 +5,7 @@ import com.matthieu.posts_backend.client.PostsRetrievalClient;
 import com.matthieu.posts_backend.exceptions.PostsRetrievalException;
 import com.matthieu.posts_backend.filters.PostsFilter;
 import com.matthieu.posts_backend.models.PostModel;
+import com.matthieu.posts_backend.models.PostsListModel;
 import com.matthieu.posts_backend.persistence.DbAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.http.HttpStatus;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -81,5 +84,27 @@ public class PostsService {
     @Recover
     public void recoverStartup(PostsRetrievalException e) {
         log.warn("Retry limit reached, the app was unable to retrieve the posts.", e);
+    }
+
+    /**
+     * Retrieve posts stored in DB
+     * @return List of the posts stored in DB
+     */
+    public PostsListModel getPosts() {
+        PostsListModel posts;
+
+        try {
+            posts = this.dbAccessor.getPosts();
+        } catch (RuntimeException e) {
+            log.warn("An unexpected error occurred", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", e);
+        }
+
+        if (posts == null || posts.getPosts() == null || posts.getPosts().isEmpty()) {
+            // There is no post to return by the API, HTTP 204 (no-content) is sent back with an empty body
+            log.info("No post stored in DB.");
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No post found in DB.");
+        }
+        return posts;
     }
 }
